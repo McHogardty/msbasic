@@ -27,3 +27,7 @@
 .ifdef SYM1
         .byte   0,0,0
 .endif
+
+.ifdef BB6502
+.include "bb6502/bios.s"
+.endif
