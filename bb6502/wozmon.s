@@ -21,19 +21,12 @@ IN              = $0200         ;  Input buffer to $027F
                .segment "WOZMON"
 
 RESET:          CLD             ; Clear decimal arithmetic mode.
+                jsr INIT_BUFFER ; Initialise SERIAL_INPUT_BUFFER before enabling interrupts.
                 CLI
-                ; LDY #$7F        ; Mask for DSP data direction register.
                 lda #%00011111   ; #(STOP_BITS_1 | CONTROL_WL_8 | RCS_BAUD | SBR_19200)
                 sta ACIA::CONTROL
-                ldy #%10001011   ; #(PME_ENABLED | REM_NORMAL | TIC_RTSB_LO | IRQ_DISABLED | DTR_READY)
-                ; lda #%00001011   ; PME = disabled, REM = disabled, TIC = disabled, IRD = disabled, DTRB = enabled
-                ; This uses a sneaky hack to get bit 7 to be 1 - the value of bit 7 doesn't actually matter on the 65C51N
-                ; so we set it to ensure that the escape routine works correctly after initialisation.
+                ldy #%10001001   ; #(PME_ENABLED | REM_NORMAL | TIC_RTSB_LO | IRQ_ENABLED | DTR_READY)
                 sty ACIA::COMMAND
-                ; STY DSP         ; Set it up.
-                ; LDA #$A7        ; KBD and DSP control register mask.
-                ; STA KBDCR       ; Enable interrupts, set CA1, CB1, for
-                ; STA DSPCR       ;  positive edge sense/output mode.
 NOTCR:          CMP #$08          ; BS?
                 BEQ BACKSPACE   ; Yes.
                 CMP #$1b        ; ESC?
