@@ -7,12 +7,11 @@
 LOAD:
     rts
 
+
 SAVE:
     rts
 
 
-ISCNTC:
-    rts
 
 MONRDKEY:
 CHRIN:

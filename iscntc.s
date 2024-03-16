@@ -26,4 +26,7 @@
 .ifdef SYM1
 .include "sym1_iscntc.s"
 .endif
+.ifdef BB6502
+.include "bb6502_iscntc.s"
+.endif
 ;!!! runs into "STOP"
