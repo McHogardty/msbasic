@@ -44,6 +44,8 @@ ESCAPE:         LDA #'\'        ; "\".
                 JSR ECHO        ; Output it.
 GETLINE:        LDA #$0D        ; CR.
                 JSR ECHO        ; Output it.
+                lda #$0a        ; LF.
+                jsr ECHO
                 LDY #$01        ; Initialize text index.
 BACKSPACE:      DEY             ; Back up text index.
                 BMI GETLINE     ; Beyond start of line, reinitialize.
@@ -121,6 +123,8 @@ SETADR:         LDA L-1,X       ; Copy hex data to
 NXTPRNT:        BNE PRDATA      ; NE means no address to print.
                 LDA #$0D        ; CR.
                 JSR ECHO        ; Output it.
+                lda #$0A        ; LF.
+                jsr ECHO
                 LDA XAMH        ; ‘Examine index’ high-order byte.
                 JSR PRBYTE      ; Output it in hex format.
                 LDA XAML        ; Low-order ‘examine index’ byte.
